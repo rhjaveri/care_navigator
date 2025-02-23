@@ -91,7 +91,7 @@ async function processQuery(query: string) {
   const content = response.choices[0].message.content;
   
   if (content === 'NOT_MEDICAL_QUERY') {
-    return { isError: true, message: 'Please describe your medical symptoms or health concerns so we can help find the right specialist.' };
+    return { isError: true, message: 'Please describe your medical  symptoms or health concerns so we can help find the right specialist.' };
   }
 
   const specialists = content?.split('|') || [];
