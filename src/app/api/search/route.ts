@@ -15,7 +15,7 @@ interface SearchRequest {
   location: Location;
 }
 
-function validateRequest(body: any): { isValid: boolean; error?: string } {
+function validateRequest(body: SearchRequest): { isValid: boolean; error?: string } {
   console.log('Validating request body:', body);
   
   // Check if all required fields exist

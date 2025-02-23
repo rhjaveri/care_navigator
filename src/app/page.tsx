@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { PROVIDER_URLS, type ProviderKey } from '@/constants/providers';
+import { useState } from 'react';
+import {type ProviderKey } from '@/constants/providers';
 import { useLoadScript, Autocomplete } from '@react-google-maps/api';
 
 interface Location {
   lat: number;
   lng: number;
   address?: string;
+}
+
+interface GoogleAutocompleteInput extends HTMLInputElement {
+  getPlace(): google.maps.places.PlaceResult;
 }
 
 const libraries = ['places'];
@@ -200,8 +204,8 @@ export default function Home() {
           });
         }}
         onPlaceChanged={() => {
-          const autocomplete = document.querySelector('input') as HTMLInputElement;
-          const place = (autocomplete as any).getPlace() as google.maps.places.PlaceResult;
+          const autocomplete = document.querySelector('input') as GoogleAutocompleteInput;
+          const place = autocomplete.getPlace();
           handlePlaceSelect(place);
         }}
       >
@@ -244,10 +248,12 @@ export default function Home() {
             <button
               onClick={handleGetCurrentLocation}
               disabled={isLoadingLocation || isLocationSet}
-              className={`px-6 py-4 rounded-full transition-colors duration-200 whitespace-nowrap flex items-center gap-2
-                ${isLocationSet 
+              className={[
+                'px-6 py-4 rounded-full transition-colors duration-200 whitespace-nowrap flex items-center gap-2',
+                isLocationSet 
                   ? 'bg-green-500 text-white cursor-default' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              ].join(' ')}
             >
               {isLoadingLocation ? 'Getting location...' : isLocationSet ? (
                 <>
